@@ -4,10 +4,12 @@
 
 #include <iostream>
 #include <stdexcept>
+#include "fast/schema.hpp"
 
 int main(int argc, char* argv[])
 {
     try {
+        fast::schema schema{"FIX50SP2-2017-Mar.xml"};
 
     } catch (const std::exception& e) {
         std::cerr << "ERROR: " << e.what() << '\n';
