@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "fast/schema.hpp"
+#include "fast/decoder.hpp"
 
 int main(int argc, char* argv[])
 {
