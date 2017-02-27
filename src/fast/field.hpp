@@ -6,28 +6,33 @@
 #define KSERGEY_field_260217001137
 
 #include <cstdint>
+#include <string>
+#include <experimental/optional>
 
 namespace fast {
 
-/*
- * PMAP bit required - yes/no
- */
-
-enum class field_op
+enum field_op_t
 {
-    none,
-    constant,
-    copy,
-    default_,
-    delta,
-    increment,
-    tail
+    op_none,
+    op_constant,
+    op_copy,
+    op_default,
+    op_delta,
+    op_increment,
+    op_tail
 };
 
-enum class field_presence
+enum field_presence_t
 {
-    mandatory,
-    optional
+    presence_mandatory,
+    presence_optional
+};
+
+enum field_state_t
+{
+    state_undefined,
+    state_assigned,
+    state_empty
 };
 
 /*
@@ -38,12 +43,24 @@ enum class field_presence
  *  none        | no            | no
  *  constant    | no            | required
  *  copy        | required      | required
- *  default_    | required      | required
+ *  default     | required      | required
  *  delta       | no            | no
  *  increment   | required      | required
  *  tail        | required      | required
  * ----------------------------------------
  */
+
+template< field_op_t Op, field_presence_t Presence >
+constexpr bool pmap_bit_required = true;
+
+template< field_presence_t Presence >
+constexpr bool pmap_bit_required< op_none, Presence > = false;
+
+template< field_presence_t Presence >
+constexpr bool pmap_bit_required< op_delta, Presence > = false;
+
+template<>
+constexpr bool pmap_bit_required< op_constant, presence_mandatory > = false;
 
 /*
  * Field Nullability
@@ -53,26 +70,37 @@ enum class field_presence
  *  none        | no            | yes
  *  constant    | no            | no
  *  copy        | no            | yes
- *  default_    | no            | yes
+ *  default     | no            | yes
  *  delta       | no            | yes
  *  increment   | no            | yes
  *  tail        | no            | yes
  * ----------------------------------------
  */
 
-class pmap;
-
-template< std::uint32_t ID, class TypeT >
+template< field_op_t Op, field_presence_t Presence >
 class field
 {
 private:
-public:
-    bool decode(const char*& encodedBegin, const char* encodedEnd,
-            const pmap& map)
-    {
-        return false;
-    }
+    std::string name_;
+    std::uint32_t id_;
 
+    field_state_t state_;
+    field_state_t prev_state_;
+
+    /* Type value_; */
+    /* Type reset_value_; */
+    /* Type prev_value_; */
+
+public:
+    /** Construct field */
+    field(const char* name, std::uint32_t id)
+        : name_{name}
+        , id_{id}
+    {}
+
+    /** Return true if PMAP bit required */
+    constexpr bool pmap_required() const
+    { return pmap_bit_required< Op, Presence >; }
 };
 
 } /* namespace fast */
