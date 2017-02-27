@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include "fast/schema.hpp"
 #include "fast/decoder.hpp"
+#include "fast/pmap.hpp"
 
 int main(int argc, char* argv[])
 {

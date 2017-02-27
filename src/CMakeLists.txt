@@ -13,3 +13,4 @@ target_link_libraries(${target} pugixml)
 
 # Copy files to easy debug
 file(COPY FIX50SP2-2017-Mar.xml DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY packet.data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

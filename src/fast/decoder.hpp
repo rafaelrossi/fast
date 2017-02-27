@@ -46,6 +46,26 @@ public:
 
     /* TODO: add skip field by type */
 
+    /**
+     * Decode PMAP
+     */
+    __force_inline void decode_pmap(std::uint64_t& result, std::uint64_t& result_mask)
+    {
+        result = 0;
+        result_mask = 1;
+
+        while (__likely(first_ != last_)) {
+            auto c = *first_++;
+            result = (result << 7) | (c & 0x7f);
+            result_mask <<= 7;
+            if (c & 0x80) {
+                return;
+            }
+            /* TODO: check overflow */
+        }
+        throw std::runtime_error("Unexpected end of data (PMAP decoding)");
+    }
+
     /** Decode integer non-nullable type */
     template< class IntT >
     __force_inline std::enable_if_t< is_fast_int_v< IntT > > decode_int(IntT& result)
@@ -59,7 +79,6 @@ public:
             }
             /* TODO: check overflow */
         }
-
         throw std::runtime_error("Unexpected end of data (integer field decoding)");
     }
 
