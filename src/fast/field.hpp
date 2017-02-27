@@ -78,6 +78,16 @@ constexpr bool pmap_bit_required< op_constant, presence_mandatory > = false;
  */
 
 template< field_op_t Op, field_presence_t Presence >
+constexpr bool nullable = true;
+
+template< field_op_t Op >
+constexpr bool nullable< Op, presence_mandatory > = false;
+
+template<>
+constexpr bool nullable< op_constant, presence_optional > = false;
+
+/** Field class */
+template< field_op_t Op, field_presence_t Presence >
 class field
 {
 private:
@@ -99,8 +109,12 @@ public:
     {}
 
     /** Return true if PMAP bit required */
-    constexpr bool pmap_required() const
+    constexpr bool is_pmap_required() const
     { return pmap_bit_required< Op, Presence >; }
+
+    /** Return true if field could be nullable */
+    constexpr bool is_nullable() const
+    { return nullable< Op, Presence >; }
 };
 
 } /* namespace fast */
