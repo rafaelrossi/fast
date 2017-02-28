@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <vector>
 #include "fast/schema.hpp"
-#include "fast/decoder.hpp"
+#include "fast/parser.hpp"
 #include "fast/pmap.hpp"
 #include "fast/field.hpp"
 
@@ -22,20 +22,20 @@ int main(int argc, char* argv[])
         /* Load sample packet */
         auto packet = load_packet("packet.data");
 
-        /* Create decoder */
-        fast::decoder decoder{packet.data(), packet.data() + packet.size()};
+        /* Create parser */
+        fast::parser parser{packet.data(), packet.data() + packet.size()};
 
-        /* Create PMAP and load value */
+        /* Create PMAP handler */
         fast::pmap pmap;
 
-        /* Decode PMAP */
-        pmap.load(decoder);
+        /* Read PMAP */
+        pmap.load(parser);
 
         /* Check if PMAP bit set */
         if (pmap.is_bit_set()) {
             /* Decode template ID */
             std::uint32_t template_id;
-            decoder.decode_int(template_id);
+            parser.parse(template_id);
             std::cout << "Packet template id " << template_id << '\n';
             pmap.next();
         }

@@ -7,10 +7,11 @@
 
 #include <cstdint>
 #include <cassert>
-#include "decoder.hpp"
+#include "parser.hpp"
 
 namespace fast {
 
+/** FAST presence map handler */
 class pmap
 {
 private:
@@ -18,18 +19,14 @@ private:
     std::uint64_t mask_{0};
 
 public:
+    /** Default constructor */
     pmap() = default;
 
-    pmap(std::uint64_t value, std::uint64_t mask)
-        : value_{value}
-        , mask_{mask}
-    {}
-
-    /** Load PMAP from decoder */
-    __force_inline void load(decoder& d)
+    /** Load PMAP from parser */
+    __force_inline void load(parser& p)
     {
-        /* Load from decoder */
-        d.decode_pmap(value_, mask_);
+        /* Read pmap and pmap mask */
+        p.parse_pmap(value_, mask_);
         /* Move cursor to first bit */
         next();
     }
