@@ -2,8 +2,8 @@
  * Copyright (c) 2017 Sergey Kovalevich <inndie@gmail.com>
  */
 
-#ifndef KSERGEY_value_010317165442
-#define KSERGEY_value_010317165442
+#ifndef KSERGEY_value_storage_010317224500
+#define KSERGEY_value_storage_010317224500
 
 namespace fast {
 
@@ -15,14 +15,14 @@ enum value_state_t
 };
 
 template< class T >
-class value
+class value_storage
 {
 private:
     T val_{};
     value_state_t state_{state_undefined};
 
 public:
-    value() = default;
+    value_storage() = default;
 
     value_state_t state() const noexcept
     { return state_; }
@@ -57,4 +57,4 @@ public:
 
 } /* namespace fast */
 
-#endif /* KSERGEY_value_010317165442 */
+#endif /* KSERGEY_value_storage_010317224500 */
