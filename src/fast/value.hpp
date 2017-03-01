@@ -27,17 +27,32 @@ public:
     value_state_t state() const noexcept
     { return state_; }
 
-    bool empty() const noexcept
-    { return state_ == state_empty; }
+    bool undefined() const noexcept
+    { return state_ == state_undefined; }
 
     bool assigned() const noexcept
     { return state_ == state_assigned; }
 
-    bool undefined() const noexcept
-    { return state_ == state_undefined; }
+    bool empty() const noexcept
+    { return state_ == state_empty; }
 
     void set_state(value_state_t val) noexcept
     { state_ = val; }
+
+    void set_undefined() noexcept
+    { set_state(state_undefined); }
+
+    void set_assigned() noexcept
+    { set_state(state_assigned); }
+
+    void set_empty() noexcept
+    { set_state(state_empty); }
+
+    T get() const noexcept
+    { return val_; }
+
+    T& get() noexcept
+    { return val_; }
 };
 
 } /* namespace fast */

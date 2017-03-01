@@ -49,8 +49,9 @@ private:
 
     using base = field< Op, Presence >;
 
-    optional< T > reset_value_;
-    optional< T > value_;
+    value< T > reset_value_;
+    value< T > prev_value_;
+    value< T > value_;
 
 public:
     using base::base;
