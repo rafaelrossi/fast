@@ -7,14 +7,11 @@
 
 #include <cstdint>
 #include <string>
-#include <experimental/optional>
-#include "pmap.hpp"
-#include "field_attrs.hpp"
+#include "pmap_decoder.hpp"
+#include "field_detail.hpp"
 #include "value.hpp"
 
 namespace fast {
-
-using std::experimental::optional;
 
 /** Field class */
 template< field_op_t Op, field_presence_t Presence >
@@ -40,22 +37,22 @@ public:
     { return nullable< Op, Presence >; }
 };
 
-template< class T, field_op_t Op, field_presence_t Presence >
-class field_decoder_int
-    : public field< Op, Presence >
+template< class T >
+struct field_context
 {
-private:
-    static_assert( is_int_v< T >, "" );
-
-    using base = field< Op, Presence >;
-
     value< T > reset_value_;
     value< T > prev_value_;
     value< T > value_;
+};
 
-public:
-    using base::base;
+template< field_op_t Op, field_presence_t Presence >
+struct field_decoder;
 
+template<>
+struct field_decoder< op_none, presence_mandatory >
+{
+//template< class T >
+//__force_inline static void decode(data_parser& parser, pmap& map)
 
 };
 

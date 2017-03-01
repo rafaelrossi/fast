@@ -2,8 +2,8 @@
  * Copyright (c) 2017 Sergey Kovalevich <inndie@gmail.com>
  */
 
-#ifndef KSERGEY_pmap_220217154418
-#define KSERGEY_pmap_220217154418
+#ifndef KSERGEY_pmap_decoder_010317223333
+#define KSERGEY_pmap_decoder_010317223333
 
 #include <cstdint>
 #include <cassert>
@@ -11,8 +11,8 @@
 
 namespace fast {
 
-/** FAST presence map handler */
-class pmap
+/** FAST presence map decoder */
+class pmap_decoder
 {
 private:
     std::uint64_t value_{0};
@@ -20,7 +20,7 @@ private:
 
 public:
     /** Default constructor */
-    pmap() = default;
+    pmap_decoder() = default;
 
     /** Load PMAP from parser */
     __force_inline void load(data_parser& parser)
@@ -49,4 +49,4 @@ public:
 
 } /* namespace fast */
 
-#endif /* KSERGEY_pmap_220217154418 */
+#endif /* KSERGEY_pmap_decoder_010317223333 */

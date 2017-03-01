@@ -2,12 +2,12 @@
  * Copyright (c) 2017 Sergey Kovalevich <inndie@gmail.com>
  */
 
-#ifndef KSERGEY_field_attrs_010317133102
-#define KSERGEY_field_attrs_010317133102
+#ifndef KSERGEY_field_detail_010317223652
+#define KSERGEY_field_detail_010317223652
 
 namespace fast {
 
-/** Field operators attribute */
+/** Field operators */
 enum field_op_t
 {
     op_none,
@@ -19,7 +19,7 @@ enum field_op_t
     op_tail
 };
 
-/** Field presence attribute */
+/** Field presence */
 enum field_presence_t
 {
     presence_mandatory,
@@ -79,4 +79,4 @@ constexpr bool nullable< op_constant, presence_optional > = false;
 
 } /* namespace fast */
 
-#endif /* KSERGEY_field_attrs_010317133102 */
+#endif /* KSERGEY_field_detail_010317223652 */

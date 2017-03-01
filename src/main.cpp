@@ -8,7 +8,7 @@
 #include <vector>
 #include "fast/schema.hpp"
 #include "fast/data_parser.hpp"
-#include "fast/pmap.hpp"
+#include "fast/pmap_decoder.hpp"
 #include "fast/field.hpp"
 
 std::vector< char > load_packet(const char* path);
@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
         fast::data_parser parser{packet.data(), packet.data() + packet.size()};
 
         /* Create PMAP handler */
-        fast::pmap pmap;
+        fast::pmap_decoder pmap;
 
         /* Read PMAP */
         pmap.load(parser);
