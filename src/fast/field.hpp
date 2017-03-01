@@ -10,15 +10,11 @@
 #include <experimental/optional>
 #include "pmap.hpp"
 #include "field_attrs.hpp"
+#include "value.hpp"
 
 namespace fast {
 
-enum field_state_t
-{
-    state_undefined,
-    state_assigned,
-    state_empty
-};
+using std::experimental::optional;
 
 /** Field class */
 template< field_op_t Op, field_presence_t Presence >
@@ -44,12 +40,21 @@ public:
     { return nullable< Op, Presence >; }
 };
 
-template< class TypeT, field_op_t Op, field_presence_t Presence >
-class field_decoder;
-
-template< class TypeT, field_presence_t Presence >
-class field_decoder< TypeT, op_none, Presence >
+template< class T, field_op_t Op, field_presence_t Presence >
+class field_decoder_int
+    : public field< Op, Presence >
 {
+private:
+    static_assert( is_int_v< T >, "" );
+
+    using base = field< Op, Presence >;
+
+    optional< T > reset_value_;
+    optional< T > value_;
+
+public:
+    using base::base;
+
 
 };
 
