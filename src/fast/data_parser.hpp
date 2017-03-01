@@ -2,8 +2,8 @@
  * Copyright (c) 2017 Sergey Kovalevich <inndie@gmail.com>
  */
 
-#ifndef KSERGEY_parser_280217225024
-#define KSERGEY_parser_280217225024
+#ifndef KSERGEY_data_parser_010317134652
+#define KSERGEY_data_parser_010317134652
 
 #include <cstdint>
 #include <stdexcept>
@@ -41,21 +41,21 @@ static_assert( sizeof(unicode_char) == sizeof(char), "" );
 static_assert( std::is_same< std::int8_t, char >::value == false, "" );
 
 /** FAST data parser */
-class parser
+class data_parser
 {
 private:
     char* first_{nullptr};
     char* last_{nullptr};
 
 public:
-    parser(const parser&) = delete;
-    parser& operator=(const parser&) = delete;
+    data_parser(const data_parser&) = delete;
+    data_parser& operator=(const data_parser&) = delete;
 
     /** Default constructor */
-    parser() = default;
+    data_parser() = default;
 
-    /** Constuct parser */
-    parser(char* first, char* last)
+    /** Constuct data_parser */
+    data_parser(char* first, char* last)
         : first_{first}
         , last_{last}
     {}
@@ -102,7 +102,7 @@ public:
     __force_inline std::enable_if_t< is_signed_int_v< IntT >, bool > parse_nullable(IntT& result)
     {
         /* Parse raw value */
-        parse_int(result);
+        parse(result);
         if (result == 0) {
             /* Parsed null value */
             return false;
@@ -201,6 +201,7 @@ public:
             }
             result = unicode_string_cref{reinterpret_cast< unicode_char* >(first_), len};
             first_ += len;
+            return true;
         } else {
             return false;
         }
@@ -228,6 +229,7 @@ public:
             }
             result = vector_cref{reinterpret_cast< std::int8_t* >(first_), len};
             first_ += len;
+            return true;
         } else {
             return false;
         }
@@ -236,4 +238,4 @@ public:
 
 } /* namespace fast */
 
-#endif /* KSERGEY_parser_280217225024 */
+#endif /* KSERGEY_data_parser_010317134652 */

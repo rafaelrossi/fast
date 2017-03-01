@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <vector>
 #include "fast/schema.hpp"
-#include "fast/parser.hpp"
+#include "fast/data_parser.hpp"
 #include "fast/pmap.hpp"
 #include "fast/field.hpp"
 
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
         auto packet = load_packet("packet.data");
 
         /* Create parser */
-        fast::parser parser{packet.data(), packet.data() + packet.size()};
+        fast::data_parser parser{packet.data(), packet.data() + packet.size()};
 
         /* Create PMAP handler */
         fast::pmap pmap;
@@ -35,8 +35,11 @@ int main(int argc, char* argv[])
         if (pmap.is_bit_set()) {
             /* Decode template ID */
             std::uint32_t template_id;
-            parser.parse(template_id);
-            std::cout << "Packet template id " << template_id << '\n';
+            if (parser.parse_nullable(template_id)) {
+                std::cout << "Packet template id " << template_id << '\n';
+            } else {
+                /* Use previous template */
+            }
             pmap.next();
         }
 
@@ -57,7 +60,6 @@ int main(int argc, char* argv[])
 
         /* Construct field */
         fast::field< fast::op_constant, fast::presence_mandatory > field1{"MessageType", 35};
-
     } catch (const std::exception& e) {
         std::cerr << "ERROR: " << e.what() << '\n';
         return EXIT_FAILURE;

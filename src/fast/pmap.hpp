@@ -7,7 +7,7 @@
 
 #include <cstdint>
 #include <cassert>
-#include "parser.hpp"
+#include "data_parser.hpp"
 
 namespace fast {
 
@@ -23,10 +23,10 @@ public:
     pmap() = default;
 
     /** Load PMAP from parser */
-    __force_inline void load(parser& p)
+    __force_inline void load(data_parser& parser)
     {
         /* Read pmap and pmap mask */
-        p.parse_pmap(value_, mask_);
+        parser.parse_pmap(value_, mask_);
         /* Move cursor to first bit */
         next();
     }
