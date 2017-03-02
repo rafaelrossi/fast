@@ -10,6 +10,7 @@
 #include "fast/data_parser.hpp"
 #include "fast/pmap_decoder.hpp"
 #include "fast/field.hpp"
+#include "fast/iostream.hpp"
 
 std::vector< char > load_packet(const char* path);
 
@@ -106,6 +107,22 @@ int main(int argc, char* argv[])
             SettlDate{"SettlDate", 64};
         fast::field< fast::ascii_string_cref, fast::op_none, fast::presence_optional >
             SettleType{"SettleType", 5459};
+        fast::field< fast::decimal, fast::op_none, fast::presence_optional >
+            OrigIssueAmt{"OrigIssueAmt", 5850};
+        fast::field< std::uint32_t, fast::op_none, fast::presence_optional >
+            CouponPaymentDate{"CouponPaymentDate", 224};
+        fast::field< fast::decimal, fast::op_none, fast::presence_optional >
+            CouponRate{"CouponRate", 223};
+        fast::field< std::uint32_t, fast::op_none, fast::presence_optional >
+            SettlFixingDate{"SettlFixingDate", 9119};
+        fast::field< fast::decimal, fast::op_none, fast::presence_optional >
+            DividendNetPx{"DividendNetPx", 9982};
+        fast::field< fast::vector_cref, fast::op_none, fast::presence_optional >
+            SecurityDesc{"SecurityDesc", 107};
+        fast::field< fast::vector_cref, fast::op_none, fast::presence_optional >
+            EncodedSecurityDesc{"EncodedSecurityDesc", 351};
+        fast::field< fast::vector_cref, fast::op_none, fast::presence_optional >
+            QuoteText{"QuoteText", 9696};
 
         MessageType.decode(parser, pmap);
         ApplVerID.decode(parser, pmap);
@@ -124,6 +141,20 @@ int main(int argc, char* argv[])
         MaturityDate.decode(parser, pmap);
         SettlDate.decode(parser, pmap);
         SettleType.decode(parser, pmap);
+        OrigIssueAmt.decode(parser, pmap);
+        CouponPaymentDate.decode(parser, pmap);
+        CouponRate.decode(parser, pmap);
+        SettlFixingDate.decode(parser, pmap);
+        DividendNetPx.decode(parser, pmap);
+        SecurityDesc.decode(parser, pmap);
+        EncodedSecurityDesc.decode(parser, pmap);
+        QuoteText.decode(parser, pmap);
+
+        //<uInt32 name="SettlFixingDate" id="9119" presence="optional"></uInt32>
+		//<decimal name="DividendNetPx" id="9982" presence="optional"></decimal>
+		//<byteVector name="SecurityDesc" id="107" presence="optional"></byteVector>
+		//<byteVector name="EncodedSecurityDesc" id="351" presence="optional"></byteVector>
+		//<byteVector name="QuoteText" id="9696" presence="optional"></byteVector>
 
         std::cout << "DECODED\n";
         std::cout << MessageType << "\n";
@@ -143,6 +174,14 @@ int main(int argc, char* argv[])
         std::cout << MaturityDate << '\n';
         std::cout << SettlDate << '\n';
         std::cout << SettleType << '\n';
+        std::cout << OrigIssueAmt << '\n';
+        std::cout << CouponPaymentDate << '\n';
+        std::cout << CouponRate << '\n';
+        std::cout << SettlFixingDate << '\n';
+        std::cout << DividendNetPx << '\n';
+        std::cout << SecurityDesc << '\n';
+        std::cout << EncodedSecurityDesc << '\n';
+        std::cout << QuoteText << '\n';
 
     } catch (const std::exception& e) {
         std::cerr << "ERROR: " << e.what() << '\n';

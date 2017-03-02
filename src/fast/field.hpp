@@ -7,7 +7,6 @@
 
 #include <cstdint>
 #include <string>
-#include <iostream>
 #include "pmap_decoder.hpp"
 #include "field_detail.hpp"
 #include "value_storage.hpp"
@@ -303,28 +302,6 @@ public:
     __force_inline void decode(data_parser& parser, pmap_decoder& pmap)
     { field_decoder< Op, Presence >::decode(parser, pmap, context_); }
 };
-
-/** Serialize unicode_string_cref */
-__force_inline std::ostream& operator<<(std::ostream& os, const unicode_string_cref& value)
-{ return os << ascii_string_cref{reinterpret_cast< const char* >(value.data()), value.size()}; }
-
-/** Serialize vector_cref */
-__force_inline std::ostream& operator<<(std::ostream& os, const vector_cref& value)
-{
-    return os << ascii_string_cref{reinterpret_cast< const char* >(value.data()), value.size()};
-}
-
-/** Serialize field to stream */
-template< class TypeT, field_op_t Op, field_presence_t Presence >
-__force_inline std::ostream& operator<<(std::ostream& os, const field< TypeT, Op, Presence >& f)
-{
-    if (f.present()) {
-        os << f.name() << "=" << f.value();
-    } else {
-        os << f.name() << "=NULL";
-    }
-    return os;
-}
 
 } /* namespace fast */
 
